@@ -1,0 +1,46 @@
+<h1 style="text-align: center;">Nhập thông tin Nhân viên</h1>
+<div class="row">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4">
+    <div [hidden]="submitted">
+      <form [formGroup]="employeesaveform" #saveemployee (ngSubmit)="saveEmployee(saveEmployee)">
+        <div class="form-group">
+          <label for="name">Employee Name</label>
+          <input type="text" class="form-control" formControlName="name" data-toggle="tooltip" data-placement="right"
+            title="Enter Employee Name">
+            <div *ngIf="employeesaveform.get('name').invalid && (employeesaveform.get('name').dirty || employeesaveform.get('name').touched)" class="alert alert-danger">
+              <div *ngIf="employeesaveform.get('name').errors.required">
+                Employee Name require
+              </div>
+            </div>
+        </div>
+        <div class="form-group">
+          <label for="sdt">Employee Sdt</label>
+          <input type="text" class="form-control" formControlName="sdt" [pattern] ="mobNumberPattern" data-toggle="tooltip" data-placement="right"
+            title="Enter Employee Sdt">
+            <div *ngIf="employeesaveform.get('sdt').invalid && (employeesaveform.get('sdt').dirty || employeesaveform.get('sdt').touched)" class="alert alert-danger">
+              <div *ngIf="employeesaveform.get('sdt').errors.required">
+                Employee Phone require
+              </div>
+              <div *ngIf="employeesaveform.get('sdt').errors.pattern">
+                Employee Phone invalid format 
+              </div>
+            </div>
+        </div>
+        <div class="form-group">
+          <label for="diachi">Employee Dia chi</label>
+          <input type="text" class="form-control" formControlName="diachi" data-toggle="tooltip" data-placement="right"
+            title="Enter Employee Dia chi">
+            <div *ngIf="employeesaveform.get('diachi').invalid && (employeesaveform.get('diachi').dirty || employeesaveform.get('diachi').touched)" class="alert alert-danger">
+              <div *ngIf="employeesaveform.get('diachi').errors.required">
+                Employee Address require
+              </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success" style="margin-right: 10px;"  [disabled] = "employeesaveform.invalid">Submit</button>
+        <button class="btn btn-danger" (click) ="backListView()">Back</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-sm-4"></div>
+</div>
