@@ -73,8 +73,8 @@ export class EmployeeListComponent implements OnInit {
     console.log('Delete employee' + employee);
     this.employeeservice.deleteEmployee(employee.id).subscribe(data => {
       this.deleteMessage = true;
+      this.getPage(this.pageNumbers, this.pageSize, '');
     });
-    this.getPage(this.pageNumbers, this.pageSize, '');
   }
 
   updateEmployee(employee: Employee) {
