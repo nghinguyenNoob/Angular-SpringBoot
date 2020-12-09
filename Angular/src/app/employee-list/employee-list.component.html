@@ -24,16 +24,20 @@
           <thead class="thead-light">
             <tr>
               <th>Employee Name</th>
-              <th>Employee Phone</th>
+              <th>Employee Gender</th>
+              <th>Employee Age</th>
               <th>Employee Address</th>
+              <th>Employee Phone</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let employee of employees ">
               <td>{{employee.name}}</td>
-              <td>{{employee.sdt}}</td>
-              <td>{{employee.diachi}}</td>
+              <td>{{employee.gender}}</td>
+              <td>{{employee.age}}</td>
+              <td>{{employee.address}}</td>
+              <td>{{employee.phone}}</td>
               <td><button (click)="deleteEmployee(employee)" class='btn btn-danger'
                   style="margin-right: 10px;">Delete</button>
                 <button (click)="updateEmployee(employee)" class='btn btn-primary'>Update</button>

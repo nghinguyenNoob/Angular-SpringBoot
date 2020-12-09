@@ -80,7 +80,7 @@ public class EmployeeController {
 	public ResponseEntity<ResponseEmployee> list(@RequestParam(name = "page", defaultValue = "0") int page,
 			@RequestParam(name = "size", defaultValue = "10") int size,
 			@RequestParam(name = "text", defaultValue = "") String text) {
-		PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id"));
+		PageRequest pageRequest = PageRequest.of(page, size, Sort.by("id").descending());
 		ResponseEmployee emp;
 		if (text.equals("")) {
 			Page<Employee> pageResult = employeePagAndSortRepo.findAll(pageRequest);

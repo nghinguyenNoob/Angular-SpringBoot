@@ -19,11 +19,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	int getMaxIdEmployee();
 
 	@Modifying
-	@Query(value = "INSERT INTO Employee (id,name,sdt,diachi) VALUES (:id,:name,:sdt,:diachi)", nativeQuery = true)
+	@Query(value = "INSERT INTO Employee (id,name,phone,address) VALUES (:id,:name,:phone,:address)", nativeQuery = true)
 	@Transactional
-	void saveEmployee(@Param("id") int id, @Param("name") String name, @Param("sdt") String sdt,
-			@Param("diachi") String diachi);
+	void saveEmployee(@Param("id") int id, @Param("name") String name, @Param("phone") String phone,
+			@Param("address") String address);
 
-	@Query("SELECT e FROM Employee e WHERE e.name LIKE %?1% Or e.sdt LIKE %?1% Or e.diachi LIKE %?1% ")
+	@Query("SELECT e FROM Employee e WHERE e.name LIKE %?1% Or e.phone LIKE %?1% Or e.address LIKE %?1% ")
 	List<Employee> searchEmployee(String textSearch);
 }

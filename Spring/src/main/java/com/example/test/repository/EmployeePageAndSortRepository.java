@@ -11,6 +11,6 @@ import com.example.test.model.Employee;
 @Repository
 public interface EmployeePageAndSortRepository extends PagingAndSortingRepository<Employee, Integer> {
 
-	@Query("SELECT e FROM Employee e WHERE e.name LIKE %?1% Or e.sdt LIKE %?1% Or e.diachi LIKE %?1% ")
+	@Query("SELECT e FROM Employee e WHERE e.name LIKE %?1% Or e.phone LIKE %?1% Or e.address LIKE %?1% ")
 	Page<Employee> findAllBySearch(String textSearch, Pageable pageable);
 }

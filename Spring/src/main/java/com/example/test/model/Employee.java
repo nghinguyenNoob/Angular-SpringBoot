@@ -1,5 +1,7 @@
 package com.example.test.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,38 +12,58 @@ import javax.persistence.Table;
 public class Employee {
 
 	@Id
-	@Column(name = "idemployee")
+	@Column(name = "id")
 	private int id;
 
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "sdt")
-	private String sdt;
+	@Column(name = "age")
+	private int age;
 
-	@Column(name = "diachi")
-	private String diachi;
+	@Column(name = "gender")
+	private int gender;
+
+	@Column(name = "birthday")
+	private Date birthday;
+
+	@Column(name = "phone")
+	private String phone;
+
+	@Column(name = "mail")
+	private String mail;
+
+	@Column(name = "address")
+	private String address;
 
 	/**
-	 * 
+	 * Constructor not parameter
 	 */
 	public Employee() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @param id
 	 * @param name
-	 * @param sdt
-	 * @param diachi
+	 * @param age
+	 * @param gender
+	 * @param birthday
+	 * @param phone
+	 * @param mail
+	 * @param address
 	 */
-	public Employee(Employee em) {
+	public Employee(int id, String name, int age, int gender, Date birthday, String phone, String mail,
+			String address) {
 		super();
-		this.id = em.getId();
-		this.name = em.getName();
-		this.sdt = em.getSdt();
-		this.diachi = em.getDiachi();
+		this.id = id;
+		this.name = name;
+		this.age = age;
+		this.gender = gender;
+		this.birthday = birthday;
+		this.phone = phone;
+		this.mail = mail;
+		this.address = address;
 	}
 
 	/**
@@ -73,31 +95,87 @@ public class Employee {
 	}
 
 	/**
-	 * @return the sdt
+	 * @return the age
 	 */
-	public String getSdt() {
-		return sdt;
+	public int getAge() {
+		return age;
 	}
 
 	/**
-	 * @param sdt the sdt to set
+	 * @param age the age to set
 	 */
-	public void setSdt(String sdt) {
-		this.sdt = sdt;
+	public void setAge(int age) {
+		this.age = age;
 	}
 
 	/**
-	 * @return the diachi
+	 * @return the gender
 	 */
-	public String getDiachi() {
-		return diachi;
+	public int getGender() {
+		return gender;
 	}
 
 	/**
-	 * @param diachi the diachi to set
+	 * @param gender the gender to set
 	 */
-	public void setDiachi(String diachi) {
-		this.diachi = diachi;
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+
+	/**
+	 * @return the birthday
+	 */
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	/**
+	 * @param birthday the birthday to set
+	 */
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	/**
+	 * @return the phone
+	 */
+	public String getPhone() {
+		return phone;
+	}
+
+	/**
+	 * @param phone the phone to set
+	 */
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	/**
+	 * @return the mail
+	 */
+	public String getMail() {
+		return mail;
+	}
+
+	/**
+	 * @param mail the mail to set
+	 */
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	/**
+	 * @return the address
+	 */
+	public String getAddress() {
+		return address;
+	}
+
+	/**
+	 * @param address the address to set
+	 */
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }
