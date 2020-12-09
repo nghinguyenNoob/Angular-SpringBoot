@@ -15,24 +15,24 @@
             </div>
         </div>
         <div class="form-group">
-          <label for="sdt">Employee Sdt</label>
-          <input type="text" class="form-control" formControlName="sdt" [pattern] ="mobNumberPattern" data-toggle="tooltip" data-placement="right"
+          <label for="phone">Employee Sdt</label>
+          <input type="text" class="form-control" formControlName="phone" [pattern] ="mobNumberPattern" data-toggle="tooltip" data-placement="right"
             title="Enter Employee Sdt">
-            <div *ngIf="employeesaveform.get('sdt').invalid && (employeesaveform.get('sdt').dirty || employeesaveform.get('sdt').touched)" class="alert alert-danger">
-              <div *ngIf="employeesaveform.get('sdt').errors.required">
+            <div *ngIf="employeesaveform.get('phone').invalid && (employeesaveform.get('phone').dirty || employeesaveform.get('phone').touched)" class="alert alert-danger">
+              <div *ngIf="employeesaveform.get('phone').errors.required">
                 Employee Phone require
               </div>
-              <div *ngIf="employeesaveform.get('sdt').errors.pattern">
+              <div *ngIf="employeesaveform.get('phone').errors.pattern">
                 Employee Phone invalid format 
               </div>
             </div>
         </div>
         <div class="form-group">
-          <label for="diachi">Employee Dia chi</label>
-          <input type="text" class="form-control" formControlName="diachi" data-toggle="tooltip" data-placement="right"
+          <label for="address">Employee Dia chi</label>
+          <input type="text" class="form-control" formControlName="address" data-toggle="tooltip" data-placement="right"
             title="Enter Employee Dia chi">
-            <div *ngIf="employeesaveform.get('diachi').invalid && (employeesaveform.get('diachi').dirty || employeesaveform.get('diachi').touched)" class="alert alert-danger">
-              <div *ngIf="employeesaveform.get('diachi').errors.required">
+            <div *ngIf="employeesaveform.get('address').invalid && (employeesaveform.get('address').dirty || employeesaveform.get('address').touched)" class="alert alert-danger">
+              <div *ngIf="employeesaveform.get('address').errors.required">
                 Employee Address require
               </div>
             </div>

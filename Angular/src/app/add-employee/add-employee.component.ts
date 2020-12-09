@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Employee } from '../employee';
@@ -28,16 +28,22 @@ export class AddEmployeeComponent implements OnInit {
     });
     this.employeesaveform = this.fb.group({
       name: ['', Validators.required],
-      sdt: ['', Validators.required],
-      diachi: ['', Validators.required]
+      phone: ['', Validators.required],
+      address: ['', Validators.required],
+      gender: [''],
+      birthday: [''],
+      mail: ['']
     });
   }
 
   saveEmployee(saveEmployee) {
     this.employee.id = this.maxIdEmployee + 1;
     this.employee.name = this.EmployeeName.value;
-    this.employee.sdt = this.EmployeeSdt.value;
-    this.employee.diachi = this.EmployeeDiachi.value;
+    this.employee.gender = this.EmployeeGender.value;
+    this.employee.phone = this.EmployeePhone.value;
+    this.employee.address = this.EmployeeAddress.value;
+    this.employee.mail = this.EmployeeMail.value;
+    this.employee.birthday = this.EmployeeBirthday.value;
     this.submitted = true;
     this.save();
   }
@@ -53,12 +59,24 @@ export class AddEmployeeComponent implements OnInit {
     return this.employeesaveform.get('name');
   }
 
-  get EmployeeSdt() {
-    return this.employeesaveform.get('sdt');
+  get EmployeePhone() {
+    return this.employeesaveform.get('phone');
   }
 
-  get EmployeeDiachi() {
-    return this.employeesaveform.get('diachi');
+  get EmployeeAddress() {
+    return this.employeesaveform.get('addess');
+  }
+
+  get EmployeeGender() {
+    return this.employeesaveform.get('gender');
+  }
+
+  get EmployeeBirthday() {
+    return this.employeesaveform.get('birthday');
+  }
+
+  get EmployeeMail() {
+    return this.employeesaveform.get('mail');
   }
 
   get employeesaveFormControl() {
@@ -68,10 +86,5 @@ export class AddEmployeeComponent implements OnInit {
   backListView() {
     this.router.navigate(['ListEmployee']);
   }
-
-  // addEmployeeForm() {
-  //   this.submitted = false;
-  //   this.employeesaveform.reset();
-  // }
 
 }

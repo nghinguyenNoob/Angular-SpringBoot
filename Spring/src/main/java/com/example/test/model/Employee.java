@@ -18,9 +18,6 @@ public class Employee {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "age")
-	private int age;
-
 	@Column(name = "gender")
 	private int gender;
 
@@ -53,12 +50,10 @@ public class Employee {
 	 * @param mail
 	 * @param address
 	 */
-	public Employee(int id, String name, int age, int gender, Date birthday, String phone, String mail,
-			String address) {
+	public Employee(int id, String name, int gender, Date birthday, String phone, String mail, String address) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.age = age;
 		this.gender = gender;
 		this.birthday = birthday;
 		this.phone = phone;
@@ -92,20 +87,6 @@ public class Employee {
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	/**
-	 * @return the age
-	 */
-	public int getAge() {
-		return age;
-	}
-
-	/**
-	 * @param age the age to set
-	 */
-	public void setAge(int age) {
-		this.age = age;
 	}
 
 	/**

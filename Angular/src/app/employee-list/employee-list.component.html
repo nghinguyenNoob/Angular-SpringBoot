@@ -25,7 +25,6 @@
             <tr>
               <th>Employee Name</th>
               <th>Employee Gender</th>
-              <th>Employee Age</th>
               <th>Employee Address</th>
               <th>Employee Phone</th>
               <th>Action</th>
@@ -35,7 +34,6 @@
             <tr *ngFor="let employee of employees ">
               <td>{{employee.name}}</td>
               <td>{{employee.gender}}</td>
-              <td>{{employee.age}}</td>
               <td>{{employee.address}}</td>
               <td>{{employee.phone}}</td>
               <td><button (click)="deleteEmployee(employee)" class='btn btn-danger'
