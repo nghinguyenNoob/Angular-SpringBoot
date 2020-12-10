@@ -35,7 +35,7 @@ export class UpdateEmployeeComponent implements OnInit {
   mobNumberPattern = '^(09|03|04|05|06|07|08)+([0-9]{8})$';
   ngOnInit() {
     this.submitted = false;
-    //this.idemployee = window.history.state.id;
+    // this.idemployee = window.history.state.id;
     this.sub = this.activaterouter.paramMap.subscribe(params => {
       this.idemployee = params.get('id');
     });

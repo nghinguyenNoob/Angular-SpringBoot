@@ -17,9 +17,9 @@
       <div class="col-sm-3"></div>
       <div class="col-sm-6">
         <div class="input-group">
-          <input type="text" [(ngModel)]="textSearch" placeholder="Search..." class="form-control">
+          <input type="search" [(ngModel)]="textSearch" placeholder="Search" class="form-control mr-sm-2">
           <button name="search" (click)="searchEmployee(textSearch)"
-            class="formc-control input-group-append">Search</button>
+            class="btn btn-outline-success my-2 my-sm-0">Search</button>
         </div>
         <table class="table table-hover table-sm" style="border: 2px;">
           <thead class="thead-light">
@@ -35,18 +35,22 @@
             <tr *ngFor="let employee of employees ">
               <td>{{employee.name}}</td>
               <td *ngIf="employee.gender ===1; else elseBlock">Nam</td>
-              <ng-template #elseBlock>Nữ</ng-template>
+              <ng-template #elseBlock>
+                <td>Nữ</td>
+              </ng-template>
               <td>{{employee.address}}</td>
               <td>{{employee.phone}}</td>
               <td><button (click)="deleteEmployee(employee)" class='btn btn-danger'
                   style="margin-right: 10px;">Delete</button>
-                <!--<button (click)="updateEmployee(employee)" class='btn btn-primary'>Update</button>-->
                 <a [routerLink]="['/UpdateEmployee', employee.id]" class="btn btn-primary">Update</a>
               </td>
             </tr>
 
           </tbody><br>
         </table>
+        <div [hidden]="!dataIsEmpty">
+          <span>Data not found</span>
+        </div>
         <ul class="pagination justify-content-center" [hidden]="dataIsEmpty">
           <li class="page-item"><a (click)="getPreviousPage()" class="page-link">Previous</a></li>
           <li *ngFor="let index of pageIndexes" class="page-item">

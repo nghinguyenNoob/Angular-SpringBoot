@@ -1,5 +1,19 @@
-<div class="navbar">
-  <a routerLink="/ListEmployee" class="btn btn-primary" style="margin-right: 20px;">Danh sách</a>
-  <a routerLink="/AddEmployee" class="btn btn-primary" style="margin-right: auto;">Thêm mới</a>
-</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="collapse navbar-collapse">
+    <ul class="nav nav-tab">
+      <li class="nav-item">
+        <a class="btn btn-primary" routerLink="/">Home</a>
+      </li>
+      <li class="tab-item nav-item">
+        <a class="btn btn-primary" routerLink="/ListEmployee">Danh sách Nhân Viên</a>
+      </li>
+      <li class="tab-item nav-item">
+        <a class="btn btn-primary" routerLink="/AddEmployee">Thêm Nhân viên</a>
+      </li>
+      <li class="tab-item nav-item">
+        <a class="btn btn-primary" routerLink="/SkillEmployee">Kỹ năng Nhân viên</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 <router-outlet></router-outlet>

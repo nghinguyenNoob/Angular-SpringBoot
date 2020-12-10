@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { UpdateEmployeeComponent } from './update-employee/update-employee.component';
+import { EmployeeSkillComponent } from './employee-skill/employee-skill.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { UpdateEmployeeComponent } from './update-employee/update-employee.compo
     AppComponent,
     AddEmployeeComponent,
     EmployeeListComponent,
-    UpdateEmployeeComponent
+    UpdateEmployeeComponent,
+    EmployeeSkillComponent
   ],
   imports: [
     BrowserModule,
