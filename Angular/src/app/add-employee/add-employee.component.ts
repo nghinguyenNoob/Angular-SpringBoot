@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Employee } from '../employee';
 import { EmployeeService } from '../employee.service';
@@ -14,7 +13,6 @@ export class AddEmployeeComponent implements OnInit {
 
   constructor(private router: Router, private employeeservice: EmployeeService, private fb: FormBuilder) { }
 
-  employees: Observable<Employee[]>;
   employee: Employee = new Employee();
   maxIdEmployee: number;
   submitted = false;
@@ -49,10 +47,16 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   save() {
-    this.employeeservice.createEmployee(this.employee.id, this.employee).subscribe(data => console.log(data), error => console.log(error));
-    this.employee = new Employee();
-    this.router.navigate(['ListEmployee']);
-
+    this.employeeservice.createEmployee(this.employee.id, this.employee).subscribe(data => {
+      console.log(data);
+      this.router.navigate(['ListEmployee']);
+      this.employee = new Employee();
+    },
+      error => {
+        console.log(error)
+        this.router.navigate(['ListEmployee']);
+        this.employee = new Employee();
+      });
   }
 
   get EmployeeName() {
@@ -64,7 +68,7 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   get EmployeeAddress() {
-    return this.employeesaveform.get('addess');
+    return this.employeesaveform.get('address');
   }
 
   get EmployeeGender() {

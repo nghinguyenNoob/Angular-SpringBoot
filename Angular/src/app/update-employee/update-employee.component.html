@@ -3,48 +3,65 @@
   <div class="col-sm-4"></div>
   <div class="col-sm-4">
     <div [hidden]="submitted">
-      <form (ngSubmit)="updateEmployee(employee)" #updateForm ="ngForm">
-        <!--<div *ngFor="let employee of employeelist">-->
-        <input type="hidden" class="form-control" [(ngModel)]="employee.id" [ngModelOptions]="{standalone: true}">
+      <form [formGroup]="employeeupdateform" #updateemployee (ngSubmit)="updateEmployee(updateEmployee)">
         <div class="form-group">
-          <label for="name">Employee Name</label>
-          <input type="text" class="form-control" [(ngModel)]="employee.name" [ngModelOptions]="{standalone: true}"
-            #name="ngModel" required data-toggle=" tooltip" data-placement="right">
-          <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
-            <div *ngIf="name.errors.required">
-              Employee Name Require
+          <label for="name">Tên Nhân viên</label>
+          <input type="text" class="form-control" formControlName="name" data-toggle="tooltip" data-placement="right"
+            title="Enter Employee Name">
+          <div
+            *ngIf="employeeupdateform.get('name').invalid && (employeeupdateform.get('name').dirty || employeeupdateform.get('name').touched)"
+            class="alert alert-danger">
+            <div *ngIf="employeeupdateform.get('name').errors.required">
+              Employee Name require
             </div>
           </div>
         </div>
         <div class="form-group">
-          <label for="sdt">Employee Phone</label>
-          <input type="text" class="form-control" [(ngModel)]="employee.sdt" [ngModelOptions]="{standalone: true}"
-            #sdt="ngModel" required minlength = "10" [pattern] = "mobNumberPattern" data-toggle="tooltip" data-placement="right">
-          <div *ngIf="sdt.invalid && (sdt.dirty || sdt.touched)" class="alert alert-danger">
-            <div *ngIf="sdt.errors.required">
-              Employee Phone Require
+          <label for="gender">Giới tính</label>
+          <select class="form-control" formControlName="gender" ([ngModelChange])='nrSelect'>
+            <option value="-1" disabled="disabled">Select one...</option>
+            <option value="1">Male</option>
+            <option value="0">FeMale</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="birthday">Ngày sinh</label>
+          <input type="date" class="form-control" formControlName="birthday" data-toggle="tooltip" data-placement="right">
+        </div>
+        <div class="form-group">
+          <label for="phone">Điện thoại liên lạc</label>
+          <input type="text" class="form-control" formControlName="phone" [pattern]="mobNumberPattern"
+            data-toggle="tooltip" data-placement="right" title="Enter Employee Sdt">
+          <div
+            *ngIf="employeeupdateform.get('phone').invalid && (employeeupdateform.get('phone').dirty || employeeupdateform.get('phone').touched)"
+            class="alert alert-danger">
+            <div *ngIf="employeeupdateform.get('phone').errors.required">
+              Employee Phone require
             </div>
-            <div *ngIf="sdt.errors.minlength">
-              Employee Phone minLength 10 character
-            </div>
-            <div *ngIf="sdt.errors.pattern">
-              Employee Phone not match
+            <div *ngIf="employeeupdateform.get('phone').errors.pattern">
+              Employee Phone invalid format
             </div>
           </div>
         </div>
         <div class="form-group">
-          <label for="diachi">Employee Address</label>
-          <input type="text" class="form-control" [(ngModel)]="employee.diachi" [ngModelOptions]="{standalone: true}"
-            #diachi="ngModel" required data-toggle="tooltip" data-placement="right">
-          <div *ngIf="diachi.invalid && (diachi.dirty || diachi.touched)" class="alert alert-danger">
-            <div *ngIf="diachi.errors.required">
-              Employee Address Require
+          <label for="address">Địa chỉ</label>
+          <input type="text" class="form-control" formControlName="address" data-toggle="tooltip" data-placement="right"
+            title="Enter Employee Dia chi">
+          <div
+            *ngIf="employeeupdateform.get('address').invalid && (employeeupdateform.get('address').dirty || employeeupdateform.get('address').touched)"
+            class="alert alert-danger">
+            <div *ngIf="employeeupdateform.get('address').errors.required">
+              Employee Address require
             </div>
           </div>
         </div>
-
-        <button type="submit" class="btn btn-success" style="margin-right: 10px;" [disabled] = "name.invalid || sdt.invalid || diachi.invalid">Submit</button>
-        <button class="btn btn-danger" (click) ="backListView()">Close</button>
+        <div class="form-group">
+          <label for="mail">Địa chỉ mail</label>
+          <input type="email" class="form-control" formControlName="mail" data-toggle="tooltip" data-placement="right">
+        </div>
+        <button type="submit" class="btn btn-success" style="margin-right: 10px;"
+          [disabled]="employeeupdateform.invalid">Lưu</button>
+        <button class="btn btn-danger" (click)="backListView()">Trờ về</button>
       </form>
     </div>
   </div>

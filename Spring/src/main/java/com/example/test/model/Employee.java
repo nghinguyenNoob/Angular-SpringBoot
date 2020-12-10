@@ -1,7 +1,5 @@
 package com.example.test.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,7 +20,7 @@ public class Employee {
 	private int gender;
 
 	@Column(name = "birthday")
-	private Date birthday;
+	private String birthday;
 
 	@Column(name = "phone")
 	private String phone;
@@ -50,7 +48,7 @@ public class Employee {
 	 * @param mail
 	 * @param address
 	 */
-	public Employee(int id, String name, int gender, Date birthday, String phone, String mail, String address) {
+	public Employee(int id, String name, int gender, String birthday, String phone, String mail, String address) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -106,14 +104,14 @@ public class Employee {
 	/**
 	 * @return the birthday
 	 */
-	public Date getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
 
 	/**
 	 * @param birthday the birthday to set
 	 */
-	public void setBirthday(Date birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 

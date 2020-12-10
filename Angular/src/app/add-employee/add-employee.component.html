@@ -5,40 +5,63 @@
     <div [hidden]="submitted">
       <form [formGroup]="employeesaveform" #saveemployee (ngSubmit)="saveEmployee(saveEmployee)">
         <div class="form-group">
-          <label for="name">Employee Name</label>
+          <label for="name">Tên Nhân viên</label>
           <input type="text" class="form-control" formControlName="name" data-toggle="tooltip" data-placement="right"
             title="Enter Employee Name">
-            <div *ngIf="employeesaveform.get('name').invalid && (employeesaveform.get('name').dirty || employeesaveform.get('name').touched)" class="alert alert-danger">
-              <div *ngIf="employeesaveform.get('name').errors.required">
-                Employee Name require
-              </div>
+          <div
+            *ngIf="employeesaveform.get('name').invalid && (employeesaveform.get('name').dirty || employeesaveform.get('name').touched)"
+            class="alert alert-danger">
+            <div *ngIf="employeesaveform.get('name').errors.required">
+              Employee Name require
             </div>
+          </div>
         </div>
         <div class="form-group">
-          <label for="phone">Employee Sdt</label>
-          <input type="text" class="form-control" formControlName="phone" [pattern] ="mobNumberPattern" data-toggle="tooltip" data-placement="right"
-            title="Enter Employee Sdt">
-            <div *ngIf="employeesaveform.get('phone').invalid && (employeesaveform.get('phone').dirty || employeesaveform.get('phone').touched)" class="alert alert-danger">
-              <div *ngIf="employeesaveform.get('phone').errors.required">
-                Employee Phone require
-              </div>
-              <div *ngIf="employeesaveform.get('phone').errors.pattern">
-                Employee Phone invalid format 
-              </div>
-            </div>
+          <label for="gender">Giới tính</label>
+          <select class="form-control" formControlName="gender" [value]='-1'>
+            <option value="-1" disabled="disabled">Select one...</option>
+            <option value="1">Male</option>
+            <option value="0">FeMale</option>
+          </select>
         </div>
         <div class="form-group">
-          <label for="address">Employee Dia chi</label>
+          <label for="birthday">Ngày sinh</label>
+          <input type="date" class="form-control" formControlName="birthday">
+        </div>
+        <div class="form-group">
+          <label for="phone">Điện thoại liên lạc</label>
+          <input type="text" class="form-control" formControlName="phone" [pattern]="mobNumberPattern"
+            data-toggle="tooltip" data-placement="right" title="Enter Employee Sdt">
+          <div
+            *ngIf="employeesaveform.get('phone').invalid && (employeesaveform.get('phone').dirty || employeesaveform.get('phone').touched)"
+            class="alert alert-danger">
+            <div *ngIf="employeesaveform.get('phone').errors.required">
+              Employee Phone require
+            </div>
+            <div *ngIf="employeesaveform.get('phone').errors.pattern">
+              Employee Phone invalid format
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="address">Địa chỉ</label>
           <input type="text" class="form-control" formControlName="address" data-toggle="tooltip" data-placement="right"
             title="Enter Employee Dia chi">
-            <div *ngIf="employeesaveform.get('address').invalid && (employeesaveform.get('address').dirty || employeesaveform.get('address').touched)" class="alert alert-danger">
-              <div *ngIf="employeesaveform.get('address').errors.required">
-                Employee Address require
-              </div>
+          <div
+            *ngIf="employeesaveform.get('address').invalid && (employeesaveform.get('address').dirty || employeesaveform.get('address').touched)"
+            class="alert alert-danger">
+            <div *ngIf="employeesaveform.get('address').errors.required">
+              Employee Address require
             </div>
+          </div>
         </div>
-        <button type="submit" class="btn btn-success" style="margin-right: 10px;"  [disabled] = "employeesaveform.invalid">Submit</button>
-        <button class="btn btn-danger" (click) ="backListView()">Back</button>
+        <div class="form-group">
+          <label for="mail">Địa chỉ mail</label>
+          <input type="email" class="form-control" formControlName="mail">
+        </div>
+        <button type="submit" class="btn btn-success" style="margin-right: 10px;"
+          [disabled]="employeesaveform.invalid">Lưu</button>
+        <button class="btn btn-danger" (click)="backListView()">Trờ về</button>
       </form>
     </div>
   </div>

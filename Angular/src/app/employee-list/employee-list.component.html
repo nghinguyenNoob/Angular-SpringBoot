@@ -18,7 +18,8 @@
       <div class="col-sm-6">
         <div class="input-group">
           <input type="text" [(ngModel)]="textSearch" placeholder="Search..." class="form-control">
-          <button name="search" (click)= "searchEmployee(textSearch)" class="formc-control input-group-append">Search</button>
+          <button name="search" (click)="searchEmployee(textSearch)"
+            class="formc-control input-group-append">Search</button>
         </div>
         <table class="table table-hover table-sm" style="border: 2px;">
           <thead class="thead-light">
@@ -33,7 +34,8 @@
           <tbody>
             <tr *ngFor="let employee of employees ">
               <td>{{employee.name}}</td>
-              <td>{{employee.gender}}</td>
+              <td *ngIf="employee.gender ===1; else elseBlock">Nam</td>
+              <ng-template #elseBlock>Nữ</ng-template>
               <td>{{employee.address}}</td>
               <td>{{employee.phone}}</td>
               <td><button (click)="deleteEmployee(employee)" class='btn btn-danger'
@@ -45,7 +47,7 @@
           </tbody><br>
         </table>
         <ul class="pagination justify-content-center" [hidden]="dataIsEmpty">
-          <li class="page-item"><a (click)="getPreviousPage()"class="page-link">Previous</a></li>
+          <li class="page-item"><a (click)="getPreviousPage()" class="page-link">Previous</a></li>
           <li *ngFor="let index of pageIndexes" class="page-item">
             <a (click)="getPaginationWithIndex(index)" class="page-link">{{index + 1}}</a>
           </li>
