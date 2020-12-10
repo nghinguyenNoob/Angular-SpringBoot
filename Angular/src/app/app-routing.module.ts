@@ -7,7 +7,7 @@ import { UpdateEmployeeComponent } from './update-employee/update-employee.compo
 const routes: Routes = [
   { path: 'ListEmployee', component: EmployeeListComponent },
   { path: 'AddEmployee', component: AddEmployeeComponent },
-  { path: 'UpdateEmployee', component: UpdateEmployeeComponent }
+  { path: 'UpdateEmployee/:id', component: UpdateEmployeeComponent }
 ];
 
 @NgModule({

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Employee } from '../employee';
 import { EmployeeService } from '../employee.service';
 
@@ -13,6 +13,7 @@ export class UpdateEmployeeComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private activaterouter: ActivatedRoute,
     private employeeservice: EmployeeService,
     private fb: FormBuilder) {
     this.employeeupdateform = this.fb.group({
@@ -25,14 +26,19 @@ export class UpdateEmployeeComponent implements OnInit {
     });
   }
 
+  employeeupdateform: FormGroup;
+  employee: Employee = new Employee();
   submitted = false;
   idemployee: any;
-  employeeupdateform: FormGroup;
   nrSelect: any;
+  sub: any;
   mobNumberPattern = '^(09|03|04|05|06|07|08)+([0-9]{8})$';
   ngOnInit() {
     this.submitted = false;
-    this.idemployee = window.history.state.id;
+    //this.idemployee = window.history.state.id;
+    this.sub = this.activaterouter.paramMap.subscribe(params => {
+      this.idemployee = params.get('id');
+    });
     this.employeeservice.getEmployeeById(this.idemployee).subscribe(data => {
       this.employeeupdateform = this.fb.group({
         name: [data.name, Validators.required],
@@ -46,8 +52,20 @@ export class UpdateEmployeeComponent implements OnInit {
     });
   }
 
-  updateEmployee(employee: Employee) {
-    this.employeeservice.updateEmployee(employee.id, employee).subscribe(data => {
+  updateEmployee(updateEmployee) {
+    this.employee.id = this.idemployee;
+    this.employee.name = this.EmployeeName.value;
+    this.employee.gender = this.EmployeeGender.value;
+    this.employee.phone = this.EmployeePhone.value;
+    this.employee.address = this.EmployeeAddress.value;
+    this.employee.mail = this.EmployeeMail.value;
+    this.employee.birthday = this.EmployeeBirthday.value;
+    this.submitted = true;
+    this.update();
+  }
+
+  update() {
+    this.employeeservice.updateEmployee(this.employee.id, this.employee).subscribe(data => {
       console.log(data);
       this.router.navigate(['ListEmployee']);
     });
