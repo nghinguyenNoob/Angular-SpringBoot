@@ -31,9 +31,6 @@ export class UpdateEmployeeComponent implements OnInit {
   nrSelect: any;
   mobNumberPattern = '^(09|03|04|05|06|07|08)+([0-9]{8})$';
   ngOnInit() {
-    window.onbeforeunload = function (event) {
-      this.router.navigate(['ListEmployee']);
-    }
     this.submitted = false;
     this.idemployee = window.history.state.id;
     this.employeeservice.getEmployeeById(this.idemployee).subscribe(data => {
