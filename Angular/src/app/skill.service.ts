@@ -10,7 +10,7 @@ export class SkillService {
   private baseUrl = 'http://localhost:8080/api/skill/';
   constructor(private http: HttpClient) { }
 
-  getEmployeeList(): Observable<any> {
+  getSkillList(): Observable<any> {
     return this.http.get(`${this.baseUrl}` + 'skill-list');
   }
 }

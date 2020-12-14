@@ -25,7 +25,7 @@ import com.example.test.repository.EmployeeRepository;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/employee/")
 public class EmployeeController {
 
 	@Autowired
