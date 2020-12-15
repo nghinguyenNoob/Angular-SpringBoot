@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Employee } from '../employee';
-import { EmployeeService } from '../employee.service';
-import { ResponseEmployee } from '../responseeployee';
+import { Employee } from '../model/employee';
+import { EmployeeService } from '../service/employee.service';
+import { ResponseEmployee } from '../model/responseeployee';
 
 
 @Component({

@@ -3,8 +3,6 @@ package com.example.test.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,9 +16,8 @@ public class Skill {
 	@Column(name = "skill_name", length = 30)
 	private String skillName;
 
-	@ManyToOne()
-	@JoinColumn(name = "skill_type_id", nullable = false)
-	private SkillType skillTypeId;
+	@Column(name = "skill_type_id")
+	private int skillTypeId;
 	
 	/**
 	 * Constructor not parameter
@@ -34,7 +31,7 @@ public class Skill {
 	 * @param skillName
 	 * @param skillTypeId
 	 */
-	public Skill(int skillId, String skillName, SkillType skillTypeId) {
+	public Skill(int skillId, String skillName, int skillTypeId) {
 		super();
 		this.skillId = skillId;
 		this.skillName = skillName;
@@ -72,14 +69,14 @@ public class Skill {
 	/**
 	 * @return the skillTypeId
 	 */
-	public SkillType getSkillTypeId() {
+	public int getskillTypeId() {
 		return skillTypeId;
 	}
 
 	/**
 	 * @param skillTypeId the skillTypeId to set
 	 */
-	public void setSkillTypeId(SkillType skillTypeId) {
+	public void setskillTypeIdF(int skillTypeId) {
 		this.skillTypeId = skillTypeId;
 	}
 

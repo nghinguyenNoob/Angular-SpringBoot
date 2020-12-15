@@ -13,4 +13,13 @@ export class SkillService {
   getSkillList(): Observable<any> {
     return this.http.get(`${this.baseUrl}` + 'skill-list');
   }
+
+  getSkillTypeList(): Observable<any> {
+    return this.http.get(`${this.baseUrl}` + 'skilltype-list');
+  }
+
+  getEmployeeSkillList(employeeId: number): Observable<any> {
+    console.log(`${this.baseUrl}` + `employeeskill-list/${employeeId}`);
+    return this.http.get(`${this.baseUrl}` + `employeeskill-list/${employeeId}`);
+  }
 }

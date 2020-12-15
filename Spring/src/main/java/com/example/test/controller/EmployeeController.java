@@ -38,6 +38,7 @@ public class EmployeeController {
 	public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee, @PathVariable("id") int id) {
 		employee.setId(id);
 		try {
+			employeeRepo.save(employee);
 			return new ResponseEntity<>(employeeRepo.save(employee), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();

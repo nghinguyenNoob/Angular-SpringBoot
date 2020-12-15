@@ -1,12 +1,8 @@
 package com.example.test.model;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -15,13 +11,10 @@ public class SkillType {
 
 	@Id
 	@Column(name = "skill_type_id")
-	private int skill_type_id;
+	private int skillTypeId;
 
 	@Column(name = "skill_type_name")
 	private String skillTypeName;
-
-	@OneToMany(mappedBy = "skillTypeId", cascade = CascadeType.ALL)
-	private List<Skill> skills;
 
 	/**
 	 * Constructor not parameter
@@ -31,27 +24,27 @@ public class SkillType {
 	}
 
 	/**
-	 * @param skill_type_id
+	 * @param skillTypeId
 	 * @param skillTypeName
 	 */
-	public SkillType(int skill_type_id, String skillTypeName) {
+	public SkillType(int skillTypeId, String skillTypeName) {
 		super();
-		this.skill_type_id = skill_type_id;
+		this.skillTypeId = skillTypeId;
 		this.skillTypeName = skillTypeName;
 	}
 
 	/**
-	 * @return the skill_type_id
+	 * @return the skillTypeId
 	 */
 	public int getSkill_type_id() {
-		return skill_type_id;
+		return skillTypeId;
 	}
 
 	/**
-	 * @param skill_type_id the skill_type_id to set
+	 * @param skillTypeId the skillTypeId to set
 	 */
-	public void setSkill_type_id(int skill_type_id) {
-		this.skill_type_id = skill_type_id;
+	public void setSkill_type_id(int skillTypeId) {
+		this.skillTypeId = skillTypeId;
 	}
 
 	/**
@@ -67,19 +60,4 @@ public class SkillType {
 	public void setSkillTypeName(String skillTypeName) {
 		this.skillTypeName = skillTypeName;
 	}
-
-	/**
-	 * @return the skills
-	 */
-	public List<Skill> getSkills() {
-		return skills;
-	}
-
-	/**
-	 * @param skills the skills to set
-	 */
-	public void setSkills(List<Skill> skills) {
-		this.skills = skills;
-	}
-
 }

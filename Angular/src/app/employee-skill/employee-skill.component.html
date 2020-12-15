@@ -1,7 +1,7 @@
 <h1 style="text-align: center;">Kĩ năng</h1>
 <div class="row">
-  <div class="col-sm-4"></div>
-  <div class="col-sm-4">
+  <div class="col-sm-3"></div>
+  <div class="col-sm-6">
     <div>
       <a class="btn btn-secondary btn-sm btn-master" routerLink="/">Trở về</a>
       <button class="btn btn-info btn-sm btn-master ng-star-inserted" [hidden]="isClickButtonUpdate"
@@ -21,29 +21,29 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let skill of listSkills">
-          <td>{{skill.id}}</td>
-          <td>{{skill.name}}</td>
-          <td>{{skill.typeSkill}}</td>
+        <tr *ngFor="let skill of listEmployeeSkills; let i = index">
+          <td>{{i + 1}}</td>
+          <td>{{skill.skillTypeName}}</td>
+          <td>{{skill.skillName}}</td>
         </tr>
       </tbody>
     </table>
     <form [formGroup]="formGroupSkill" [hidden]="!isClickButtonUpdate" (ngSubmit)="submit()">
       <div *ngFor="let skill of t.controls" class="list-group list-group-flush">
-        <div class="list-group-item">
+        <div class="list-group-item" style="border: 1px solid black">
           <div [formGroup]="skill" class="form-row">
             <div class="form-group col-6">
               <label>Loại kỹ năng</label>
-              <input type="text" class="form-control" formControlName="typeSkill" />
+              <input type="text" class="form-control" formControlName="skillTypeName" />
             </div>
             <div class="form-group col-6">
               <label>Tên kỹ năng</label>
-              <input type="text" class="form-control" formControlName="name" />
+              <input type="text" class="form-control" formControlName="skillName" />
             </div>
           </div>
         </div>
       </div>
     </form>
   </div>
-  <div class="col-sm-4"></div>
+  <div class="col-sm-3"></div>
 </div>

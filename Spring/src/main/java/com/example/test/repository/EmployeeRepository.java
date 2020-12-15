@@ -26,4 +26,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
 	@Query("SELECT e FROM Employee e WHERE e.name LIKE %?1% Or e.phone LIKE %?1% Or e.address LIKE %?1% ")
 	List<Employee> searchEmployee(String textSearch);
+	
+	
 }
