@@ -19,7 +19,6 @@ export class SkillService {
   }
 
   getEmployeeSkillList(employeeId: number): Observable<any> {
-    console.log(`${this.baseUrl}` + `employeeskill-list/${employeeId}`);
     return this.http.get(`${this.baseUrl}` + `employeeskill-list/${employeeId}`);
   }
 }

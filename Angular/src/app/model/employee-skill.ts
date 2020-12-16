@@ -5,4 +5,5 @@ export class EmployeeSkill {
     skillName: string;
     skillTypeId: number;
     skillTypeName: string;
+    isNew: boolean;
 }

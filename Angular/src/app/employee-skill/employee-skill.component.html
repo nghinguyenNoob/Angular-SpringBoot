@@ -8,6 +8,8 @@
         (click)="clickButtonUpdate()">Cập nhật</button>
       <button class="btn btn-primary btn-sm btn-master ng-star-inserted" [hidden]="!isClickButtonUpdate"
         (click)="clickButtonAdd()">Thêm</button>
+      <button class="btn btn-danger btn-sm btn-master ng-star-inserted" [hidden]="!isClickButtonUpdate"
+        (click)="clickButtonCancel()">Hủy</button>
       <button class="btn btn-success btn-sm btn-master ng-star-inserted" [hidden]="!isClickButtonUpdate"
         (click)="clickButtonSave()">Lưu</button>
     </div>
@@ -34,11 +36,17 @@
           <div [formGroup]="skill" class="form-row">
             <div class="form-group col-6">
               <label>Loại kỹ năng</label>
-              <input type="text" class="form-control" formControlName="skillTypeName" />
+              <input type="text" class="form-control" formControlName="skillTypeName"
+                *ngIf="skill.value.isNew === false" style="background-color: lightblue;" />
+              <input type="text" class="form-control" formControlName="skillTypeName" *ngIf="skill.value.isNew === true"
+                style="background-color: lightgreen;" />
             </div>
             <div class="form-group col-6">
               <label>Tên kỹ năng</label>
-              <input type="text" class="form-control" formControlName="skillName" />
+              <input type="text" class="form-control" formControlName="skillName" *ngIf="skill.value.isNew === false"
+                style="background-color: lightblue;" />
+              <input type="text" class="form-control" formControlName="skillName" *ngIf="skill.value.isNew === true"
+                style="background-color: lightgreen;" />
             </div>
           </div>
         </div>
