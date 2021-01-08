@@ -1,0 +1,14 @@
+<brc-poll-list
+    [pollColumns]="pollColumns"
+    [pollDataSource]="pollDataSource"
+    [scheduleShowRowSelection]="pollShowRowSelection"
+    [scheduleTotalRecords]="pollTotalRecords"
+    [scheduleRecordsPerPage]="pollRecordsPerPage"
+    [schedulePageIndex]="pollPageIndex"
+    [configPollList]="configPollList"
+    (valueFilter)="scheduleFilter($event)"
+    (sort)="pollSort($event)"
+    (btnAddPoll)="pollAdd($event)"
+    (rowDetail)="rowDetail($event)"
+    (rowDelete)="rowDelete($event)"
+></brc-poll-list>

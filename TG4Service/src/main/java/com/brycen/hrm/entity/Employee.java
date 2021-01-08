@@ -1,5 +1,6 @@
 package com.brycen.hrm.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -7,13 +8,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "employee")
 public class Employee {
+	
+	@Id
+	@Column(name ="employee_id")
 	private long employee_id ;
 	private String employee_code;
 	private String last_name;
 	private String first_name;
 	private String avata_url;
 	private String is_delete;
-	@Id
+	
 	public long getEmployee_id() {
 		return employee_id;
 	}

@@ -1,92 +1,105 @@
 package com.brycen.hrm.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="option_poll_detail")
 public class OptionPollDetail {
 
 	@Id
-	private int poll_detail_id;
-	
-	private int option_id;
-	
-	private String vote_date;
-	
-	private int vote_by;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "poll_detail_id")
+	private int pollDetailId;
+
+	@ManyToOne
+	@JoinColumn(name = "option_id")
+	private OptionPoll optionPoll;
+
+	@Column(name = "vote_date")
+	private String voteDate;
+
+	@Column(name = "vote_by")
+	private int voteBy;
 
 	public OptionPollDetail() {
 		super();
 	}
 
 	/**
-	 * @param poll_detail_id
-	 * @param option_id
-	 * @param vote_date
-	 * @param vote_by
+	 * @param pollDetailId
+	 * @param optionPoll
+	 * @param voteDate
+	 * @param voteBy
 	 */
-	public OptionPollDetail(int poll_detail_id, int option_id, String vote_date, int vote_by) {
+	public OptionPollDetail(int pollDetailId, OptionPoll optionPoll, String voteDate, int voteBy) {
 		super();
-		this.poll_detail_id = poll_detail_id;
-		this.option_id = option_id;
-		this.vote_date = vote_date;
-		this.vote_by = vote_by;
+		this.pollDetailId = pollDetailId;
+		this.optionPoll = optionPoll;
+		this.voteDate = voteDate;
+		this.voteBy = voteBy;
 	}
 
 	/**
-	 * @return the poll_detail_id
+	 * @return the pollDetailId
 	 */
-	public int getPoll_detail_id() {
-		return poll_detail_id;
+	public int getPollDetailId() {
+		return pollDetailId;
 	}
 
 	/**
-	 * @param poll_detail_id the poll_detail_id to set
+	 * @param pollDetailId the pollDetailId to set
 	 */
-	public void setPoll_detail_id(int poll_detail_id) {
-		this.poll_detail_id = poll_detail_id;
+	public void setPollDetailId(int pollDetailId) {
+		this.pollDetailId = pollDetailId;
 	}
 
 	/**
-	 * @return the option_id
+	 * @return the optionPoll
 	 */
-	public int getOption_id() {
-		return option_id;
+	public OptionPoll getOptionPoll() {
+		return optionPoll;
 	}
 
 	/**
-	 * @param option_id the option_id to set
+	 * @param optionPoll the optionPoll to set
 	 */
-	public void setOption_id(int option_id) {
-		this.option_id = option_id;
+	public void setOptionPoll(OptionPoll optionPoll) {
+		this.optionPoll = optionPoll;
 	}
 
 	/**
-	 * @return the vote_date
+	 * @return the voteDate
 	 */
-	public String getVote_date() {
-		return vote_date;
+	public String getVoteDate() {
+		return voteDate;
 	}
 
 	/**
-	 * @param vote_date the vote_date to set
+	 * @param voteDate the voteDate to set
 	 */
-	public void setVote_date(String vote_date) {
-		this.vote_date = vote_date;
+	public void setVoteDate(String voteDate) {
+		this.voteDate = voteDate;
 	}
 
 	/**
-	 * @return the vote_by
+	 * @return the voteBy
 	 */
-	public int getVote_by() {
-		return vote_by;
+	public int getVoteBy() {
+		return voteBy;
 	}
 
 	/**
-	 * @param vote_by the vote_by to set
+	 * @param voteBy the voteBy to set
 	 */
-	public void setVote_by(int vote_by) {
-		this.vote_by = vote_by;
+	public void setVoteBy(int voteBy) {
+		this.voteBy = voteBy;
 	}
-	
+
 }
