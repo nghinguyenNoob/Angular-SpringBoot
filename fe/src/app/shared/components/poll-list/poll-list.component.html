@@ -20,18 +20,10 @@
               (rowDetail)="rowDetailEvent($event)" (rowDelete)="rowDeleteEvent($event)">
             </brc-table>
           </div>
-          <div>
-            <ul class="pagination justify-content-center">
-              <li class="page-item"><a class="page-link">Previous</a></li>
-              <li *ngFor="let index of 10" class="page-item">
-                <a class="page-link">{{index + 1}}</a>
-              </li>
-              <li class="page-item"><a class="page-link">Next</a></li>
-            </ul>
-          </div>
           <div class="pagination-list" *ngIf="pollDataSource.length > 0">
-            <brc-mat-paginator [total]="scheduleTotalRecords" [pageSize]="scheduleRecordsPerPage"
-              [pageIndex]="schedulePageIndex" (onPageChange)="onPageEvent($event)"></brc-mat-paginator>
+            <brc-paginator-cus [total]="scheduleTotalRecords" [pageSize]="scheduleRecordsPerPage"
+            [pageIndex]="schedulePageIndex" (onClick)="onPageEvent($event)"></brc-paginator-cus>
+
           </div>
         </div>
       </div>

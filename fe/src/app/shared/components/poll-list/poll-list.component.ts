@@ -13,6 +13,7 @@ import { ScheduleList } from '../../../store/models/scheduleList.i';
   styleUrls: ['./poll-list.component.scss'],
 })
 export class ScheduleListComponent implements OnInit {
+  totalPage = [0, 1, 2, 3, 4 , 5, 6];
   constructor() {}
   ngOnInit(): void {}
 
@@ -48,13 +49,11 @@ export class ScheduleListComponent implements OnInit {
   @Output() rowClicked = new EventEmitter<Object>();
   @Output() rowsSelected = new EventEmitter<Object>();
   @Output() sort = new EventEmitter<SortItem[]>();
-  //Output pagination
-  @Output() onPageChange: EventEmitter<number> = new EventEmitter();
   //Out put schedulelist
   @Output() btnAddPoll: EventEmitter<string> = new EventEmitter<string>();
   @Output() rowDetail= new EventEmitter<Object>();
   @Output() rowDelete= new EventEmitter<Object>();
-  @Output() pageOnPageChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() pageOnClick: EventEmitter<number> = new EventEmitter<number>();
   scheduleValueFilter(data: FilterSchedule) {
     this.valueFilter.emit(data);
   }
@@ -71,7 +70,7 @@ export class ScheduleListComponent implements OnInit {
     this.btnAddPoll.emit();
   }
   onPageEvent(data: number) {
-    this.pageOnPageChange.emit(data);
+    this.pageOnClick.emit(data);
   }
   rowDetailEvent(data: Object) {
     this.rowDetail.emit(data);

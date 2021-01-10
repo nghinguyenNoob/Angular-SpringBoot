@@ -36,50 +36,40 @@ export class PollListPageComponent implements OnInit {
   };
   constructor(private storeFacade: StoreFacade, private _router: Router, private pollservice: PollService) { }
   ngOnInit(): void {
-    this.pollservice.getListPoll().subscribe(dataPoll => {
-      this.pollData = dataPoll;
-      this.pollservice.getListTopVote().subscribe(dataTop => {
-        this.topVotesData = dataTop;
-        this.configData(this.pollData, this.topVotesData);
-      })
-    });
+    this.getData(0,5,"");
   }
 
-  configData(pollData: any, topVotesData: any) {
-    let index = 0;
-    this.pollDataSource = [];
-    pollData.forEach(poll => {
-      let topvotes: any;
-      topvotes = ['top'];
-      topVotesData.forEach(topVote => {
-        if (poll['pollId'] == topVote['pollId']) {
-          let vote = { optionName: topVote['optionName'], voteCount: topVote['voteCount'] };
-          topvotes.push(vote);
-        }
-      });
-      let data =
-      {
-        id: poll['pollId'], stt: index + 1, question: poll['question'], expiration: poll['expiration'], status: poll['status'], create_by: poll['firstName'] + " " + poll['lastName'],
-        topvotes,
-        action: 'action'
-      }
-      this.pollDataSource.push(data);
-      index = index + 1;
-    });
-    this.pollTotalRecords = this.pollDataSource.length;
-  }
-
-  getPage(pageNumber: number, pageSize: number, textSearch: string) {
-    this.pollDataSource = [];
+  getData(pageNumber: number, pageSize: number, textSearch: String) {
     this.pollservice.getPollPagination({ page: pageNumber, size: pageSize, text: textSearch })
       .subscribe((response) => {
-        this.pollDataSource = response.polls;
-        console.log(this.pollDataSource);
-        this.pollTotalRecords = response.totalPages;
-        this.pollRecordsPerPage = response.pageSize;
-        this.pollPageIndex = response.pageNumbers;
+        this.pollData = response.polls;
+        this.pollTotalRecords = response.totalElements;
+        this.pollservice.getListTopVote().subscribe(dataTop => {
+          this.topVotesData = dataTop;
+          let index = pageSize * pageNumber;
+          this.pollDataSource = [];
+          this.pollData.forEach(poll => {
+            let topvotes: any;
+            topvotes = ['top'];
+            this.topVotesData.forEach(topVote => {
+              if (poll['pollId'] == topVote['pollId']){
+                let vote = { optionName: topVote['optionName'], voteCount: topVote['voteCount'] };
+                topvotes.push(vote);
+              }
+            });
+            let data =
+            {
+              id: poll['pollId'], stt: index + 1, question: poll['question'], expiration: poll['expiration'], status: poll['status'], create_by: poll['employee'].first_name + " " + poll['employee'].last_name,
+              topvotes,
+              action: 'action'
+            }
+            this.pollDataSource.push(data);
+            index = index + 1;
+          });
+        })
       });
   }
+
   scheduleFilter(data: FilterSchedule) {
     this.filter = data;
     let pagination = Object.assign({}, this.storeFacade.pagination);
@@ -112,13 +102,7 @@ export class PollListPageComponent implements OnInit {
     if (confirm("Are you sure delete poll")) {
       this.pollservice.deletePoll(data['id']).subscribe(data => {
         console.log(data);
-        this.pollservice.getListPoll().subscribe(dataPoll => {
-          this.pollData = dataPoll;
-          this.pollservice.getListTopVote().subscribe(dataTop => {
-            this.topVotesData = dataTop;
-            this.configData(this.pollData, this.topVotesData);
-          })
-        })
+        this.getData(this.pollPageIndex,this.pollRecordsPerPage,"");
       },
         error => {
           console.log(error);
@@ -129,10 +113,12 @@ export class PollListPageComponent implements OnInit {
 
 
   changePage(data) {
-    this.getPage(0,5,"");
+    this.pollPageIndex = data.pageIndex;
+    this.pollRecordsPerPage = data.pageSize;
+    this.getData(this.pollPageIndex,this.pollRecordsPerPage,"");
   }
 }
-// mock data
+// mock data 
 const columns: Column[] = [
   {
     title: 'STT',

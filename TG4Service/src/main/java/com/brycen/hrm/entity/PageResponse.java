@@ -6,7 +6,7 @@ public class PageResponse {
 
 	private List<Poll> polls;
 
-	private int totalPages;
+	private long totalElements;
 
 	private int pageNumbers;
 
@@ -18,14 +18,14 @@ public class PageResponse {
 
 	/**
 	 * @param polls
-	 * @param totalPages
+	 * @param totalElements
 	 * @param pageNumbers
 	 * @param pageSize
 	 */
-	public PageResponse(List<Poll> polls, int totalPages, int pageNumbers, int pageSize) {
+	public PageResponse(List<Poll> polls, long totalElements, int pageNumbers, int pageSize) {
 		super();
 		this.polls = polls;
-		this.totalPages = totalPages;
+		this.totalElements = totalElements;
 		this.pageNumbers = pageNumbers;
 		this.pageSize = pageSize;
 	}
@@ -45,17 +45,17 @@ public class PageResponse {
 	}
 
 	/**
-	 * @return the totalPages
+	 * @return the totalElements
 	 */
-	public int getTotalPages() {
-		return totalPages;
+	public long getTotalElements() {
+		return totalElements;
 	}
 
 	/**
-	 * @param totalPages the totalPages to set
+	 * @param totalElements the totalElements to set
 	 */
-	public void setTotalPages(int totalPages) {
-		this.totalPages = totalPages;
+	public void setTotalElements(long totalElements) {
+		this.totalElements = totalElements;
 	}
 
 	/**

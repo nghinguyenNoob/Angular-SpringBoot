@@ -115,7 +115,7 @@ public class PollAPI {
 		PageResponse pageResponse;
 		if (text.equals("")) {
 			Page<Poll> pageResult = polPagesRepository.findAll(pageRequest);
-			pageResponse = new PageResponse(pageResult.getContent(), pageResult.getTotalPages(), pageResult.getNumber(),
+			pageResponse = new PageResponse(pageResult.getContent(), pageResult.getTotalElements(), pageResult.getNumber(),
 					pageResult.getSize());
 		} else {
 			pageResponse = null;
