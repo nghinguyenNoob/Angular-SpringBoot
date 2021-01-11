@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.brycen.hrm.entity.Employee;
 import com.brycen.hrm.entity.OptionPoll;
 import com.brycen.hrm.entity.OptionPollDetail;
 import com.brycen.hrm.entity.PageResponse;
@@ -35,7 +34,7 @@ public class PollAPI {
 	PollService pollService;
 	
 	@Autowired
-	PollPageRepository polPagesRepository;
+	PollPageRepository pollPagesRepository;
 
 	@Autowired
 	OptionPollService optionPollService;
@@ -43,7 +42,7 @@ public class PollAPI {
 	@Autowired
 	OptionPollDetailService optionPollDetailService;
 
-	@GetMapping("poll-list") //
+	@GetMapping("poll-list")
 	public ResponseEntity<List<Poll>> getListPoll() {
 		try {
 			return new ResponseEntity<>(pollService.getListPoll(), HttpStatus.OK);
@@ -114,11 +113,13 @@ public class PollAPI {
 		PageRequest pageRequest = PageRequest.of(page, size, Sort.by("pollId").ascending());
 		PageResponse pageResponse;
 		if (text.equals("")) {
-			Page<Poll> pageResult = polPagesRepository.findAll(pageRequest);
+			Page<Poll> pageResult = pollPagesRepository.findAll(pageRequest);
 			pageResponse = new PageResponse(pageResult.getContent(), pageResult.getTotalElements(), pageResult.getNumber(),
 					pageResult.getSize());
 		} else {
-			pageResponse = null;
+			Page<Poll> pageResult = pollPagesRepository.getPollByTextSearch(text, pageRequest);
+			pageResponse =  new PageResponse(pageResult.getContent(), pageResult.getTotalElements(), pageResult.getNumber(),
+					pageResult.getSize());
 		}
 		return new ResponseEntity<>(pageResponse, HttpStatus.OK);
 	}
