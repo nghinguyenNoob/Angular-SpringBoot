@@ -10,55 +10,40 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="option_poll")
+@Table(name = "option_poll")
 public class OptionPoll {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name ="option_id")
+	@Column(name = "option_id")
 	private int optionId;
 
 	@ManyToOne
 	@JoinColumn(name = "poll_id")
 	private Poll poll;
 
+	@Column(name = "option_name")
 	private String optionName;
 
+	@Column(name = "create_date")
 	private String createDate;
 
-	private int createBy;
+	@ManyToOne
+	@JoinColumn(name = "create_by")
+	private Employee createBy;
 
+	@Column(name = "update_date", nullable = true)
 	private String updateDate;
 
-	private int updateBy;
+	@ManyToOne
+	@JoinColumn(name = "update_by", nullable = true)
+	private Employee updateBy;
 
+	@Column(name = "is_delete")
 	private int isDelete;
 
 	public OptionPoll() {
-		super();
-	}
-
-	/**
-	 * @param optionId
-	 * @param poll
-	 * @param optionName
-	 * @param createDate
-	 * @param createBy
-	 * @param updateDate
-	 * @param updateBy
-	 * @param isDelete
-	 */
-	public OptionPoll(int optionId, Poll poll, String optionName, String createDate, int createBy, String updateDate,
-			int updateBy, int isDelete) {
-		super();
-		this.optionId = optionId;
-		this.poll = poll;
-		this.optionName = optionName;
-		this.createDate = createDate;
-		this.createBy = createBy;
-		this.updateDate = updateDate;
-		this.updateBy = updateBy;
-		this.isDelete = isDelete;
+		
 	}
 
 	/**
@@ -120,14 +105,14 @@ public class OptionPoll {
 	/**
 	 * @return the createBy
 	 */
-	public int getCreateBy() {
+	public Employee getCreateBy() {
 		return createBy;
 	}
 
 	/**
 	 * @param createBy the createBy to set
 	 */
-	public void setCreateBy(int createBy) {
+	public void setCreateBy(Employee createBy) {
 		this.createBy = createBy;
 	}
 
@@ -148,14 +133,14 @@ public class OptionPoll {
 	/**
 	 * @return the updateBy
 	 */
-	public int getUpdateBy() {
+	public Employee getUpdateBy() {
 		return updateBy;
 	}
 
 	/**
 	 * @param updateBy the updateBy to set
 	 */
-	public void setUpdateBy(int updateBy) {
+	public void setUpdateBy(Employee updateBy) {
 		this.updateBy = updateBy;
 	}
 
@@ -173,5 +158,4 @@ public class OptionPoll {
 		this.isDelete = isDelete;
 	}
 
-	
 }

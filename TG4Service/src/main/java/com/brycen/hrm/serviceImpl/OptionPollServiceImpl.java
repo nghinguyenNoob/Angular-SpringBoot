@@ -26,4 +26,9 @@ public class OptionPollServiceImpl implements OptionPollService {
 		return optionPollRepository.getListTopVote();
 	}
 
+	@Override
+	public OptionPoll saveOptionPoll(OptionPoll optionPoll) {
+		return optionPollRepository.save(optionPoll);
+	}
+
 }

@@ -2,14 +2,22 @@ package com.brycen.hrm.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.brycen.hrm.entity.Poll;
-import com.brycen.hrm.entity.PollResponse;
 
 public interface PollService {
 
 	List<Poll> getListPoll();
-	
-	List<PollResponse> getListPollResponse();
-	
+
+//	List<PollResponse> getListPollResponse();
+
 	void deletePoll(int id);
+
+	Page<Poll> findAll(Pageable pageable);
+
+	Page<Poll> getPollByTextSearch(String textSearch, Pageable pageable);
+
+	Poll savePoll(Poll poll);
 }

@@ -10,4 +10,6 @@ public interface OptionPollService {
 	List<OptionPoll> getListOptionPoll();
 	
 	List<TopVoteResponse> getListTopVote();
+	
+	OptionPoll saveOptionPoll(OptionPoll optionPoll);
 }

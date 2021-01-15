@@ -30,18 +30,16 @@ public class Poll {
 	@Column(name = "create_date")
 	private String createDate;
 
-//	@Column(name = "create_by")
-//	private int createBy;
-	// Check create_by and update_by
 	@ManyToOne
 	@JoinColumn(name = "create_by")
-	private Employee employee;
+	private Employee createBy;
 
-	@Column(name = "update_date")
+	@Column(name = "update_date", nullable = true)
 	private String updateDate;
 
-	@Column(name = "update_by")
-	private int updateBy;
+	@ManyToOne
+	@JoinColumn(name = "update_by", nullable = true)
+	private Employee updateBy;
 
 	@Column(name = "is_delete")
 	private int isDelete;
@@ -53,34 +51,7 @@ public class Poll {
 	 * Constructor not parameter
 	 */
 	public Poll() {
-		super();
-	}
-
-	/**
-	 * @param pollId
-	 * @param question
-	 * @param expiration
-	 * @param allowMultiple
-	 * @param createDate
-	 * @param employee
-	 * @param updateDate
-	 * @param updateBy
-	 * @param isDelete
-	 * @param status
-	 */
-	public Poll(int pollId, String question, String expiration, int allowMultiple, String createDate, Employee employee,
-			String updateDate, int updateBy, int isDelete, String status) {
-		super();
-		this.pollId = pollId;
-		this.question = question;
-		this.expiration = expiration;
-		this.allowMultiple = allowMultiple;
-		this.createDate = createDate;
-		this.employee = employee;
-		this.updateDate = updateDate;
-		this.updateBy = updateBy;
-		this.isDelete = isDelete;
-		this.status = status;
+		
 	}
 
 	/**
@@ -154,17 +125,17 @@ public class Poll {
 	}
 
 	/**
-	 * @return the employee
+	 * @return the createBy
 	 */
-	public Employee getEmployee() {
-		return employee;
+	public Employee getCreateBy() {
+		return createBy;
 	}
 
 	/**
-	 * @param employee the employee to set
+	 * @param createBy the createBy to set
 	 */
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
+	public void setCreateBy(Employee createBy) {
+		this.createBy = createBy;
 	}
 
 	/**
@@ -184,14 +155,14 @@ public class Poll {
 	/**
 	 * @return the updateBy
 	 */
-	public int getUpdateBy() {
+	public Employee getUpdateBy() {
 		return updateBy;
 	}
 
 	/**
 	 * @param updateBy the updateBy to set
 	 */
-	public void setUpdateBy(int updateBy) {
+	public void setUpdateBy(Employee updateBy) {
 		this.updateBy = updateBy;
 	}
 

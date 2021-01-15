@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="option_poll_detail")
+@Table(name = "option_poll_detail")
 public class OptionPollDetail {
 
 	@Id
@@ -24,26 +24,13 @@ public class OptionPollDetail {
 
 	@Column(name = "vote_date")
 	private String voteDate;
-
-	@Column(name = "vote_by")
-	private int voteBy;
+	
+	@ManyToOne
+	@JoinColumn(name = "vote_by")
+	private Employee voteBy;
 
 	public OptionPollDetail() {
-		super();
-	}
 
-	/**
-	 * @param pollDetailId
-	 * @param optionPoll
-	 * @param voteDate
-	 * @param voteBy
-	 */
-	public OptionPollDetail(int pollDetailId, OptionPoll optionPoll, String voteDate, int voteBy) {
-		super();
-		this.pollDetailId = pollDetailId;
-		this.optionPoll = optionPoll;
-		this.voteDate = voteDate;
-		this.voteBy = voteBy;
 	}
 
 	/**
@@ -91,14 +78,14 @@ public class OptionPollDetail {
 	/**
 	 * @return the voteBy
 	 */
-	public int getVoteBy() {
+	public Employee getVoteBy() {
 		return voteBy;
 	}
 
 	/**
 	 * @param voteBy the voteBy to set
 	 */
-	public void setVoteBy(int voteBy) {
+	public void setVoteBy(Employee voteBy) {
 		this.voteBy = voteBy;
 	}
 
