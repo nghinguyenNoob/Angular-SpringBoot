@@ -1,46 +1,66 @@
 <div class="filter-container">
   <h1 style="font-weight: bold; text-align: center;">Create Poll</h1>
   <hr />
-  <div>
-    <brc-label [label]="labelQuestion" class="filter-label" style="width: 100%; margin-bottom: 10px;"></brc-label>
-    <input type="text" placeholder="_What's your poll question?" style="width: 100%; padding: 6px 0px;">
-  </div>
-  <br />
-
-  <div style="width: 100%;">
-    <brc-label [label]="labelExpiration" class="filter-label" style="width: 100%; margin-bottom: 10px;"></brc-label>
-    <brc-datetime-picker (getDay)="getFromDate($event)" (getHour)="getFromHour($event)"
-      (getMinute)="getFromMinute($event)"></brc-datetime-picker>
-  </div>
-  <br />
-
-  <div>
-    <input type="checkbox" name="checkMultipleAnswers" [(ngModel)]="checkMultipleAnswers">
-    <label for="checkMultipleAnswers" style="margin-left: 5px; font-size: initial; color: black;">Allow multiple poll
-      answers</label>
-  </div>
-
-  <br />
-  <div>
-    <div style="display: flex; flex-direction: column; width: 100%;">
-      <brc-label [label]="labelOption" class="filter-label" style="width: 100%; margin-bottom: 10px;"></brc-label>
-      <form [formGroup]="formOption">
-        <div *ngFor="let option of options; index as i" style="display: flex; flex-direction: row; margin-bottom: 10px;">
-          <input  style="width: 100%;">
+  <form #pollForm="ngForm" (ngSubmit)="saveDataPoll(pollForm.value)">
+    <div>
+      <brc-label [label]="labelQuestion" class="filter-label" class="label"></brc-label>
+      <input name="question" [(ngModel)]="questionPoll" type="text" placeholder="_What's your poll question?"
+        style="width: 100%; padding: 6px 0px;">
+      <div *ngIf="submitted && !isQuestionRequired" style="color: red;"> Please input question poll!</div>
+    </div>
+    <br />
+    <div style="width: 100%;">
+      <brc-label [label]="labelExpiration" class="filter-label" class="label"></brc-label>
+      <div style="display: flex; flex-direction: row;">
+        <input name="date" [(ngModel)]="dateExpiration" type="date">
+        <input name="time" [(ngModel)]="timeExpiration" type="time" style="margin-left: 5px;">
+      </div>
+      <div style="display: flex; flex-direction: row;">
+        <div style="width: 80%;">
+          <div *ngIf="submitted && !isDateRequired" style="color: red;">Please input day expiration!</div>
+          <div *ngIf="submitted && !isDateValid" style="color: red;">Please input day expiration not before day now!</div>
         </div>
-      </form>
+        <div style="width: 20%">
+          <div *ngIf="submitted && !isTimeRequired" style="color: red; margin-left: auto;">Please input time expiration!</div>
+          <div *ngIf="submitted && !isTimeValid" style="color: red; margin-left: auto;">Please input time expiration not before time now!</div>
+        </div>
+      </div>
     </div>
+    <br />
     <div style="display: flex; flex-direction: row;">
-      <button (click)="addOption()">
-        <mat-icon>add</mat-icon>
-      </button>
-      <label style="color: black; margin-top: 4px;">Add option</label>
+      <input type="checkbox" name="checkMultipleAnswers" [(ngModel)]="checkMultipleAnswers">
+      <brc-label [label]="allowMultipleAnswer" class="filter-label"></brc-label>
     </div>
-  </div>
-  <br />
-  <div>
-    <div style="width: 100%; margin: auto; text-align: center;">
-      <brc-button [configButton]="buttonSubmit" (click)="onClickBtnAdd()"></brc-button>
+    <br />
+    <div>
+      <div style="display: flex; flex-direction: column; width: 100%;">
+        <brc-label [label]="labelOption" class="filter-label" class="label"></brc-label>
+        <div *ngFor="let op of option.controls; let i= index">
+          <div [formGroup]="op">
+            <div style="display: flex; flex-direction: row; margin-bottom: 10px;">
+              <input formControlName="optionName" placeholder="Option {{i+1}}" style="width: 100%;">
+              <div *ngIf="optionCount"><button type="button" (click)="clearOption(i)" class="btn-clear">
+                  <mat-icon>clear</mat-icon>
+                </button></div>
+            </div>
+            <div *ngIf="submitted">
+              <div *ngIf="op.value.optionName ==''" style="color: red;">Option name is required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: row;">
+        <button type="button" class="btn-option" (click)="addOption()">
+          <mat-icon>add</mat-icon>
+        </button>
+        <label style="color: black; margin-top: 4px;">Add option</label>
+      </div>
     </div>
-  </div>
+    <br />
+    <div>
+      <div style="width: 100%; margin: auto; text-align: center;">
+        <brc-button [configButton]="buttonSubmit"></brc-button>
+      </div>
+    </div>
+  </form>
 </div>

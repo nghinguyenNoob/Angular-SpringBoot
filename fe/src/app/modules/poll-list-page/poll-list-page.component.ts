@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Column, SortItem } from '../../store/models/column.i';
-import { PollRecord } from '../../store/models/pollList';
 import { PollList } from '../../store/models/pollList.i';
 import {
   FilterSchedule
@@ -18,8 +17,9 @@ import { StoreFacade } from '../../store/store-facades/schedule.store-facade';
 export class PollListPageComponent implements OnInit {
   private filter: FilterSchedule = this.storeFacade.filter;
   public pollTotalRecords: number = 0;
-  public pollRecordsPerPage: number = 5;
+  public pollRecordsPerPage: number = 3;
   public pollPageIndex: number = 0;
+  public pollTextSearch: string = '';
   public pollShowRowSelection: boolean = false;
   public pollColumns: Column[] = columns;
   public pollDataSource = [];
@@ -27,8 +27,9 @@ export class PollListPageComponent implements OnInit {
   public optionPollDetailData = [];
   public topVotesData = [];
   public pollData = [];
-  public pollList: PollRecord[];
   public votes = [];
+  public searchText: string = '';
+  public placeholder: string = 'Search';
   configPollList: PollList = {
     filterBox: 'Filter Box',
     title: 'Poll List',
@@ -36,37 +37,42 @@ export class PollListPageComponent implements OnInit {
   };
   constructor(private storeFacade: StoreFacade, private _router: Router, private pollservice: PollService) { }
   ngOnInit(): void {
-    this.getData(0,5,"");
+    this.getData(this.pollPageIndex, this.pollRecordsPerPage, this.pollTextSearch);
   }
 
   getData(pageNumber: number, pageSize: number, textSearch: String) {
     this.pollservice.getPollPagination({ page: pageNumber, size: pageSize, text: textSearch })
       .subscribe((response) => {
-        this.pollData = response.polls;
-        this.pollTotalRecords = response.totalElements;
-        this.pollservice.getListTopVote().subscribe(dataTop => {
-          this.topVotesData = dataTop;
-          let index = pageSize * pageNumber;
-          this.pollDataSource = [];
-          this.pollData.forEach(poll => {
-            let topvotes: any;
-            topvotes = ['top'];
-            this.topVotesData.forEach(topVote => {
-              if (poll['pollId'] == topVote['pollId']){
-                let vote = { optionName: topVote['optionName'], voteCount: topVote['voteCount'] };
-                topvotes.push(vote);
+        if (response.polls.length == 0 && pageNumber > 0) {
+          this.pollPageIndex =  this.pollPageIndex - 1;
+          this.getData(pageNumber - 1, pageSize, "");
+        } else {
+          this.pollData = response.polls;
+          this.pollTotalRecords = response.totalElements;
+          this.pollservice.getListTopVote().subscribe(dataTop => {
+            this.topVotesData = dataTop;
+            let index = pageSize * pageNumber;
+            this.pollDataSource = [];
+            this.pollData.forEach(poll => {
+              let topvotes: any;
+              topvotes = ['top'];
+              this.topVotesData.forEach(topVote => {
+                if (poll['pollId'] == topVote['pollId']) {
+                  let vote = { optionName: topVote['optionName'], voteCount: topVote['voteCount'] };
+                  topvotes.push(vote);
+                }
+              });
+              let data =
+              {
+                id: poll['pollId'], stt: index + 1, question: poll['question'], expiration: poll['expiration'], status: poll['status'], create_by: poll['createBy'].first_name + " " + poll['createBy'].last_name,
+                topvotes,
+                action: 'action'
               }
+              this.pollDataSource.push(data);
+              index = index + 1;
             });
-            let data =
-            {
-              id: poll['pollId'], stt: index + 1, question: poll['question'], expiration: poll['expiration'], status: poll['status'], create_by: poll['employee'].first_name + " " + poll['employee'].last_name,
-              topvotes,
-              action: 'action'
-            }
-            this.pollDataSource.push(data);
-            index = index + 1;
-          });
-        })
+          })
+        }
       });
   }
 
@@ -102,7 +108,7 @@ export class PollListPageComponent implements OnInit {
     if (confirm("Are you sure delete poll")) {
       this.pollservice.deletePoll(data['id']).subscribe(data => {
         console.log(data);
-        this.getData(this.pollPageIndex,this.pollRecordsPerPage,"");
+        this.getData(this.pollPageIndex, this.pollRecordsPerPage, "");
       },
         error => {
           console.log(error);
@@ -111,12 +117,18 @@ export class PollListPageComponent implements OnInit {
     }
   }
 
-
   changePage(data) {
     this.pollPageIndex = data.pageIndex;
     this.pollRecordsPerPage = data.pageSize;
-    this.getData(this.pollPageIndex,this.pollRecordsPerPage,"");
+    this.getData(this.pollPageIndex, this.pollRecordsPerPage, this.searchText);
   }
+
+  onChangeSearch(data){
+    this.searchText = data;
+    this.pollPageIndex = 0;
+    this.getData(this.pollPageIndex, this.pollRecordsPerPage, this.searchText);
+  }
+
 }
 // mock data 
 const columns: Column[] = [

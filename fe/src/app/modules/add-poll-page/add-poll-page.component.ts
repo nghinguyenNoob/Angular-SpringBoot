@@ -1,34 +1,23 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { DatePipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Actions, ofType } from '@ngrx/effects';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import {
-  ETodo,
-  TodoAddFail,
-  TodoAddSuccess,
-} from '../../store/actions/todo.action';
-import { addTodoValue } from '../../store/models/addtodo.i';
+import { Poll, Status } from '../../shared/components/add-poll/poll';
 import { configButton } from '../../store/models/button.i';
-import { Category } from '../../store/models/category.i';
 import { LabelInterface } from '../../store/models/label.i';
-import { LabelledValue } from '../../store/models/labelvalue.i';
-import { StoreFacade } from '../../store/store-facades/todo.store-facade';
+import { PollService } from '../../store/services/poll.service';
+
 @Component({
   selector: 'app-add-poll-page',
   templateUrl: './add-poll-page.component.html',
   styleUrls: ['./add-poll-page.component.scss'],
+  providers:[DatePipe],
 })
-export class AddPollPageComponent implements OnInit, OnDestroy {
-  private unsubscribe$ = new Subject<void>();
-  constructor(
-    private storeFacade: StoreFacade,
-    private actions$: Actions,
-    private router: Router,
-    private _snackBar: MatSnackBar
-  ) { }
+export class AddPollPageComponent implements OnInit {
 
+  constructor(private router: Router, private pollservice: PollService, private datePipe: DatePipe) { }
+
+  
   labelQuestion: LabelInterface = {
     content: 'Question:',
     size: 17,
@@ -49,57 +38,22 @@ export class AddPollPageComponent implements OnInit, OnDestroy {
     color: 'black',
     backgroundColor: '',
   }
-  ngOnInit() {
-    this.storeFacade.getValueTodoTablePage().subscribe((todo) => {
-      this.CategoryArray = todo.listCategory;
-      this.dataCategory = [];
-      if (typeof this.CategoryArray != 'undefined' && this.CategoryArray.length > 0) {
-        this.CategoryArray.forEach((e) => {
-          let category: LabelledValue<string> = {
-            value: String(e.categoryId),
-            label: e.categoryName,
-          };
-          this.dataCategory.push(category);
-        });
-      }
-    });
 
-    // navigate when success
-    this.actions$
-      .pipe(
-        ofType<TodoAddSuccess>(ETodo.ADD_SUCCESS),
-        takeUntil(this.unsubscribe$)
-      )
-      .subscribe(() => {
-        this.router.navigate(['/todo']);
-        this.openSnackBar('Add Success !!!', 'Success !!!');
-      });
-    // alert when add fail
-    this.actions$
-      .pipe(ofType<TodoAddFail>(ETodo.ADD_FAIL), takeUntil(this.unsubscribe$))
-      .subscribe(() => {
-        this.openSnackBar('Add Fail !!!', 'Fail !!!');
-      });
-  }
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 1500,
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-    });
-  }
-  ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
-  public dataCategory: LabelledValue<string>[] = [];
-  public data: addTodoValue;
-  public LabelDatePicker: LabelInterface = {
-    content: 'Deadline',
-    size: 15,
-    color: '',
+  allowMultipleAnswer: LabelInterface = {
+    content: 'Allow multiple poll answers',
+    size: 17,
+    color: 'black',
     backgroundColor: '',
-  };
+  }
+  public date: string = '';
+  public time: string = '';
+  public question: string = '';
+  public checkMultipleAnswers: boolean = false;
+  public getValueDate: string;
+  public getValueHour: string;
+  public getValueMinute: string;
+  public optionPollData: FormArray;
+  public pollData: Poll;
 
   public configButtonAdd: configButton = {
     colorButton: 'primary',
@@ -108,39 +62,36 @@ export class AddPollPageComponent implements OnInit, OnDestroy {
     type: 'submit',
     text: 'Add Poll',
   };
-  public configButtonCancel: configButton = {
-    colorButton: 'warn',
-    colorMouseOver: 'Basic',
-    colorMouseOut: 'warn',
-    type: 'reset',
-    text: 'Cancel!',
-  };
 
-  public CategoryArray: Category[] = [];
-  public ImportanceArray: LabelledValue<string>[] = [
-    {
-      label: 'Hight',
-      value: 'Hight',
-    },
-    {
-      label: 'Medium',
-      value: 'Medium',
-    },
-    {
-      label: 'Low',
-      value: 'Low',
-    },
-  ];
-
-  onAddTodo(data: addTodoValue) {
-    this.data = data;
-    this.storeFacade.addTodo(this.data);
+  ngOnInit() {
   }
+
   cancelTodo(data: string) {
     this.router.navigate([data]);
   }
 
-  addPoll(data){
+  getOptionPoll(data: FormArray){
+    this.optionPollData = data;
+    this.optionPollData.value.forEach(element => {
+      console.log(element.optionName);
+    });
+  }
+
+  addPoll(data: Poll) {
+    let dateTemp = new Date();
+    this.pollData = data;
+    let poll = {
+      question: this.pollData.question,
+      expiration: this.pollData.date + ":"+ this.pollData.time,
+      allowMuptiple: this.pollData.checkMultipleAnswers? 1:0,
+      createDate: this.datePipe.transform(dateTemp, 'yyyy-MM-dd'),
+      createBy: 7000,
+      status: Status.IN_PROCESS,
+      optionPoll: []= this.pollData.optionPoll.value,
+    }
+    this.pollservice.savePoll(poll).subscribe(data =>{
+      console.log(data);
+    });
     this.router.navigateByUrl('/poll');
   }
 

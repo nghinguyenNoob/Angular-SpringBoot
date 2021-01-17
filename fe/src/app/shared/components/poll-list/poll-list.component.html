@@ -13,7 +13,8 @@
             <button mat-raised-button color="primary" (click)="onClickBtnAdd()">
               <mat-icon>add</mat-icon>{{ configPollList.btnAdd }}
             </button>
-            <input placeholder="Search" style="margin-left: auto;">
+            <brc-search style="margin-left: auto;" [searchText]="searchText" [placeholder]="placeholder"
+              (textSearch)="onChangeSearchEvent($event)"></brc-search>
           </div>
           <div style="margin: auto; display: block; min-width: 100%; overflow-x: auto;">
             <brc-table [columns]="pollColumns" [dataSource]="pollDataSource" [votes]="votes"
@@ -21,9 +22,8 @@
             </brc-table>
           </div>
           <div class="pagination-list" *ngIf="pollDataSource.length > 0">
-            <brc-paginator-cus [total]="scheduleTotalRecords" [pageSize]="scheduleRecordsPerPage"
-            [pageIndex]="schedulePageIndex" (onClick)="onPageEvent($event)"></brc-paginator-cus>
-
+            <brc-mat-paginator [total]="scheduleTotalRecords" [pageSize]="scheduleRecordsPerPage"
+              [pageIndex]="schedulePageIndex" (onPageChange)="onPageEvent($event)"></brc-mat-paginator>
           </div>
         </div>
       </div>

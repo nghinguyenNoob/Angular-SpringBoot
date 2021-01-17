@@ -35,4 +35,8 @@ export class PollService {
         const params = request;
         return this.http.get(`${this.baseUrl}` + 'pageable', { params });
     }
+
+    savePoll(poll: any): Observable<any> {
+        return this.http.post(`${this.baseUrl}` + 'save-poll', poll);
+    }
 }

@@ -1,18 +1,15 @@
+import { DatePipe } from '@angular/common';
 import {
   Component,
   EventEmitter,
   Input,
   OnInit,
-  Output,
-  ViewChild
+  Output
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { configButton } from '../../../store/models/button.i';
-import { Category } from '../../../store/models/category.i';
 import { LabelInterface } from '../../../store/models/label.i';
-import { LabelledValue } from '../../../store/models/labelvalue.i';
-import { FilterTodo } from '../../../store/models/todo-filter.i';
-import { SelectMultipleComponent } from '../select-multiple/select-multiple.component';
+import { Poll } from './poll';
 
 @Component({
   selector: 'brc-add-poll',
@@ -20,146 +17,178 @@ import { SelectMultipleComponent } from '../select-multiple/select-multiple.comp
   styleUrls: ['./add-poll.component.scss'],
 })
 export class AddPollComponent implements OnInit {
-  public valueSearch: string = '';
-  public incomplete: string = 'false';
-  public complete: string = 'false';
-  public valueImportance: string = '';
-  public valueCategory: string[] = [];
-  public valueGetToDate: string = '';
-  public valueGetToTimeNow: string = '';
-  public valueGetToHour: string = '';
-  public valueGetToMinute: string = '';
-  public valueGetFromDate: string = '';
-  public valueGetFromTimeNow: string = '';
-  public valueGetFromHour: string = '';
-  public valueGetFromMinute: string = '';
-  public checkMultipleAnswers: false;
+
   public options: Array<FormGroup> = [];
   public formOption: FormGroup;
-  abc: any = "";
-  constructor( private fb: FormBuilder) {}
+  public questionPoll: string = '';
+  public dateExpiration: string = '';
+  public timeExpiration: string = '';
+  public checkMultipleAnswers: boolean = false;
+  public optionCount: boolean = false;
+  ///ad new
+  // public optionForm: FormGroup;
+  public numberOfPolls: number = 2;
+  public submitted = false;
+  public isQuestionRequired = true;
+  public isTimeValid = true;
+  public isDateValid = true;
+  public isDateRequired = true;
+  public isTimeRequired = true;
+
+  constructor(private formBuilder: FormBuilder, private datePipe: DatePipe) { }
+  // input
   @Input() buttonSubmit: configButton;
-  @Input() buttonReset: configButton;
-  @Input() labelImportance: LabelInterface;
-  @Input() labelFromDate: LabelInterface;
-  @Input() labelToDate: LabelInterface;
-  @Input() labelCategory: LabelInterface;
   @Input() labelQuestion: LabelInterface;
   @Input() labelExpiration: LabelInterface;
   @Input() labelOption: LabelInterface;
-  @Input() placeholderSearch: string = 'search todo ...';
-  @Input() titleGroupCheckbox: string = '';
-  @Input() titleImportance: string = 'Importance';
-  @Input() titleCategory: string = 'Category';
-  @Input() dataCategory: Category[] = [];
-  @Input() dataImportance: LabelledValue<string>[];
-  // out put
-  @Output() valueFilter = new EventEmitter();
-  @Output() btnAddPoll: EventEmitter<String> = new EventEmitter<String>() ;
-  @ViewChild(SelectMultipleComponent) selectMultiple: SelectMultipleComponent;
+  @Input() allowMultipleAnswer: LabelInterface;
+  // output
+  @Output() getDay: EventEmitter<string> = new EventEmitter<string>();
+  @Output() getHour = new EventEmitter<string>();
+  @Output() getMinute = new EventEmitter<string>();
+  @Output() pollFormData: EventEmitter<Poll> = new EventEmitter<Poll>();
+  @Output() pollOptionFormData: EventEmitter<any> = new EventEmitter<any>();
+
+
+  /////
+  public pollParentForm: FormGroup;
+  public pollChildFrom: FormGroup;
+  public optionForm: FormGroup;
 
   ngOnInit() {
-    this.formOption = this.fb.group({
-      idOption: [''],
-      dataOption: ['']
+    this.optionForm = this.formBuilder.group({
+      polls: new FormArray([])
     });
+    for (let i = 0; i < this.numberOfPolls; i++) {
+      this.option.push(
+        this.formBuilder.group({
+          optionName: ['', Validators.required],
+        })
+      );
+    }
+    // this.pollChildFrom = this.formBuilder.group({
+    //   questionPoll: new FormControl('', Validators.required),
+    //   dateExpiration: new FormControl('', Validators.required),
+    //   timeExpiration: new FormControl('', Validators.required),
+    //   allowMultipleAnswer: new FormControl(false)
+    // });
+
+    // this.pollParentForm = this.formBuilder.group({
+    //   this.pollChildFrom,
+    //   this.optionForm
+    // })
   }
 
-  textSearch(data: string) {
-    this.valueSearch = data;
+  // convenience getters for easy access to form fields
+  get fOption() {
+    return this.optionForm.controls;
   }
-  getDataCheckBox(data: Object) {
-    this.incomplete = String(data[1].checked);
-    this.complete = String(data[0].checked);
-  }
-  getValueImportance(data: string) {
-    this.valueImportance = data;
-  }
-  outputSelected(data: string[]) {
-    this.valueCategory = data;
-  }
-  getToDate(data: string) {
-    this.valueGetToDate = data;
-  }
-  getToHour(data: string) {
-    this.valueGetToHour = data;
-  }
-  getToMinute(data: string) {
-    this.valueGetToMinute = data;
+  get option() {
+    return this.fOption.polls as FormArray;
   }
 
-  getFromDate(data: string) {
-    this.valueGetFromDate = data;
+  //
+  addOption() {
+    this.numberOfPolls = this.numberOfPolls + 1;
+    if (this.numberOfPolls > 2) {
+      this.optionCount = true;
+    }
+    if (this.option.length < this.numberOfPolls) {
+      for (let i = this.option.length; i < this.numberOfPolls; i++) {
+        this.option.push(
+          this.formBuilder.group({
+            optionName: ["", Validators.required],
+          })
+        );
+      }
+    }
+    this.submitted = false;
   }
-  getFromTimeNow(data: string) {
-    this.valueGetFromTimeNow = data;
+
+  clearOption(index: number) {
+    if (this.numberOfPolls > 2) {
+      this.numberOfPolls = this.numberOfPolls - 1;
+      this.option.removeAt(index);
+      if (this.numberOfPolls <= 2) {
+        this.optionCount = false;
+      }
+    }
   }
-  getFromHour(data: string) {
-    this.valueGetFromHour = data;
-  }
-  getFromMinute(data: string) {
-    this.valueGetFromMinute = data;
-  }
-  onSubmit() {
-    let sta = '';
-    if (this.complete === 'true' && this.incomplete === 'true') {
-      sta = '';
-    } else if (this.incomplete === 'true') {
-      sta = 'incomplete';
-    } else if (this.complete === 'true') {
-      sta = 'complete';
+
+  saveDataPoll(data) {
+    let question = data.question;
+    let dayInput = data.date;
+    let timeInput = data.time;
+    let checkMultipleAnswers = data.checkMultipleAnswers;
+    let isValidate = true;
+    this.submitted = true;
+    this.isQuestionRequired = true;
+    this.isDateRequired = true;
+    this.isTimeRequired = true;
+    this.isDateValid = true;
+    this.isTimeValid = true;
+
+    // Validate question, date, time, checkMultiple
+
+    let dateSystem = new Date();
+    let daySystem = this.datePipe.transform(dateSystem, 'yyyy-MM-dd');
+    let timeSystem = this.datePipe.transform(dateSystem, 'hh:mm a');
+    // let hour = Number(timeSystem.match())
+
+    if (question == '') {
+      this.isQuestionRequired = false;
+      isValidate = false;
+      console.log("question blank")
+    }
+    if (dayInput == '') {
+      this.isDateRequired = false;
+      isValidate = false;
+      console.log("day blank")
     } else {
-      sta = '';
+      if (dayInput < daySystem) {
+        this.isDateValid = false;
+        isValidate = false;
+        console.log("day notvalid")
+      }
+    }
+    if (timeInput == '') {
+      this.isTimeRequired = false;
+      isValidate = false;
+      console.log("time blank")
+    } else {
+      console.log(dayInput + " " +daySystem)
+      console.log(timeInput +" " +timeSystem)
+      if (dayInput == daySystem) {
+        if (timeInput < timeSystem) {
+          this.isTimeValid = false;
+          isValidate = false;
+          console.log("time notvalid")
+        }
+      }
     }
 
-    let fromHour = this.valueGetFromHour === '' ? '00' : this.valueGetFromHour;
-    let fromMinute =this.valueGetFromMinute === '' ? '00' : this.valueGetFromMinute;
-    let toHour = this.valueGetToHour === '' ? '00' : this.valueGetToHour;
-    let toMinute = this.valueGetToMinute === '' ? '00' : this.valueGetToMinute;
-    let model: FilterTodo = {
-      textSearch: this.valueSearch,
-      importance: this.valueImportance,
-      category: this.valueCategory,
-      status: sta,
-      fromDate:
-        this.valueGetFromDate === ''
-          ? ''
-          : this.valueGetFromDate +
-            'T' +
-            fromHour +
-            ':' +
-            fromMinute +
-            ':00.000Z',
-      toDate:
-        this.valueGetToDate === ''
-          ? ''
-          : this.valueGetToDate + 'T' + toHour + ':' + toMinute + ':00.000Z',
-    };
-    this.valueFilter.emit(model);
-  }
+    // Validate option
+    if (this.option.length > 0) {
+      for (let op of this.option.value) {
+        if (op.optionName == '') {
+          isValidate = false;
+          console.log("Option name blank")
+        }
+      }
+    }
 
-  addOption(){
-    this.formOption = this.fb.group({
-      idOption: [this.options.length + 1],
-      dataOption: [this.options.length + 1]
-    });
-    this.options.push(this.formOption);
-  }
-  
-  clear() {
-    this.valueSearch = '';
-    this.valueImportance = '';
-    this.valueCategory = [];
-    this.valueGetFromDate = '';
-    this.valueGetToDate = '';
-    this.valueGetToHour='';
-    this.valueGetFromHour='';
-    this.complete = '';
-    this.incomplete ='';
-    this.selectMultiple.clear();
-  }
+    if (!isValidate) {
+      return
+    }
 
-  onClickBtnAdd() {
-    this.btnAddPoll.emit();
+    // Set data Poll send to page add
+    let dataPoll: Poll = new Poll();
+    dataPoll.question = question;
+    dataPoll.date = dayInput;
+    dataPoll.time = timeInput;
+    dataPoll.checkMultipleAnswers = checkMultipleAnswers;
+    dataPoll.optionPoll = this.option;
+    this.pollFormData.emit(dataPoll);
+    this.submitted = false;
   }
 }

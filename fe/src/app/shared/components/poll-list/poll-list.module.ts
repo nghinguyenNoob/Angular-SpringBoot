@@ -9,7 +9,6 @@ import { PaginationModule } from '../pagination/pagination.module';
 import { ScheduleListComponent } from './poll-list.component';
 import { ScheduleFilterModule } from '../schedule-filter/schedule-filter.module';
 import { SearchModule } from '../search/search.module';
-import { PaginatorCustomModule } from '../paginator-custom/paginator-custom.module';
 
 @NgModule({
   declarations: [
@@ -24,8 +23,7 @@ import { PaginatorCustomModule } from '../paginator-custom/paginator-custom.modu
     TableModule,
     PaginationModule,
     ScheduleFilterModule,
-    SearchModule,
-    PaginatorCustomModule
+    SearchModule
   ],
   exports: [
     ScheduleListComponent
