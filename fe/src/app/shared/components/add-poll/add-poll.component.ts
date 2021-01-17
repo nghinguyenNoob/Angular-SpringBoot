@@ -121,6 +121,7 @@ export class AddPollComponent implements OnInit {
     let timeInput = data.time;
     let checkMultipleAnswers = data.checkMultipleAnswers;
     let isValidate = true;
+    let hour: number  = 0;
     this.submitted = true;
     this.isQuestionRequired = true;
     this.isDateRequired = true;
@@ -133,7 +134,14 @@ export class AddPollComponent implements OnInit {
     let dateSystem = new Date();
     let daySystem = this.datePipe.transform(dateSystem, 'yyyy-MM-dd');
     let timeSystem = this.datePipe.transform(dateSystem, 'hh:mm a');
-    // let hour = Number(timeSystem.match())
+    let time = timeSystem.match(/([0-9])\d+/g);
+    let hourStr = time[0];
+    let minuteStr = time[1];
+    let midday = timeSystem.match(/([A-Z])\w+/g);
+    if(midday[0] == 'PM') {
+      hour = Number(hourStr) + 12;
+      timeSystem = hour + ':' +minuteStr;
+    }
 
     if (question == '') {
       this.isQuestionRequired = false;

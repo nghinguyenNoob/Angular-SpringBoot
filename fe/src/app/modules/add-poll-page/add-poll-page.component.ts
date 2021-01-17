@@ -91,6 +91,7 @@ export class AddPollPageComponent implements OnInit {
     }
     this.pollservice.savePoll(poll).subscribe(data =>{
       console.log(data);
+      //show message save data succes or fail on s creen 
     });
     this.router.navigateByUrl('/poll');
   }
